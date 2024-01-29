@@ -12,6 +12,6 @@ public class CustomRecordRecoverer implements ConsumerRecordRecoverer {
             log.debug("Record value is null. Handled exception: {} with message {}", e.getClass(), e.getMessage());
         }
 
-        log.error("Handled exception: {} with message {}", e.getClass(), e.getMessage());
+        log.error("Handled exception: {} with message {}", e.getClass(), e.getCause().getMessage());
     }
 }

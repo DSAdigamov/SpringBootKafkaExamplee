@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
+import ru.adigamov.springbootkafkaexample.exception.WrongNumberException;
 import ru.adigamov.springbootkafkaexample.kafka.dto.ExampleListenerDto;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class CustomConsumer {
 
         for (int i = 0; i < values.size(); i++) {
             if (values.get(i).getNumber() == 3) {
-                throw new RuntimeException("Ошибка. Цифра 3!");
+                throw new WrongNumberException("Ошибка. Цифра 3!");
             }
         }
     }

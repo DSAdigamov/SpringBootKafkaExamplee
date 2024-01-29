@@ -5,8 +5,6 @@ import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.KafkaException;
@@ -32,12 +30,12 @@ public class KafkaConfiguration {
     @Value("${kafka.retry.retry-max-attempts}")
     private long retryMaxAttempts;
 
-    @Value(value = "${spring.kafka.producer.bootstrap-servers}")
+    @Value(value = "${spring.kafka.consumer.bootstrap-servers}")
     private String bootstrapAddress;
 
 
     @Bean
-    DefaultErrorHandler defaultErrorHandler() {
+    DefaultErrorHandler customDefaultErrorHandler() {
         FixedBackOff fixedBackOff = new FixedBackOff(retryIntervalMs, retryMaxAttempts);
         DefaultErrorHandler errorHandler = new DefaultErrorHandler(new CustomRecordRecoverer(), fixedBackOff);
         errorHandler.setLogLevel(KafkaException.Level.TRACE); //Чтобы убрать огромный стэктрейс при ошибке

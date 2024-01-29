@@ -1,0 +1,32 @@
+spring:
+  kafka:
+    consumer:
+      key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages:
+                - ru.example.dtos
+                - com.example.dtos #??????, ??????? ????? ?????????????? ??? ?????
+          deserializer:
+            key:
+              delegate:
+                class: org.apache.kafka.common.serialization.StringDeserializer
+#            value:
+#              function: ru.adigamov.springbootkafkaexample.kafka.handler.DeserializationErrorHandlerFunction
+      bootstrap-servers: localhost:29092
+      max-poll-records: 5
+
+kafka:
+  retry:
+    retry-interval-ms: 5000
+    retry-max-attempts: 3
+  example-topic: testTopic
+  listener1:
+    enabled: true
+    properties: |-
+      bootstrap.servers = localhost:29092
+      spring.deserializer.value.delegate.class = ru.adigamov.springbootkafkaexample.kafka.deserializer.CustomDeserializer
+      spring.kafka.consumer.max-poll-records = 5
